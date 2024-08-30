@@ -170,6 +170,7 @@
       </select>
       <select name="" id="informationInput">
         <optgroup>
+          <option value="-">-</option>
           <option value="Informed">Informed</option>
           <option value="Not-Informed">Not-Informed</option>
         </optgroup>
@@ -215,7 +216,7 @@
       const information = document.getElementById('informationInput').value;
       const reason = document.getElementById('reasonInput').value;
   
-      if (!name || !information || !reason) {
+      if (!name || !information) {
         alert('Please fill all fields.');
         return;
       }
