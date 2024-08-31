@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TAS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <main>
+        <header>
+            <p>
+                <a href="attendence.html" class="arrow"><i class="fa-solid fa-arrow-left"></i></a>
+                Login
+            </p>
+            <p>
+                <a href="breakm.html">Break (M)</a>
+                <a href="lunch.html">Lunch</a>
+                <a href="breake.html">Break (E)</a>
+            </p>
+        </header>
+        <section  id="entriesSection" class="entry-container">
+        </section>
+        <h6>
+            <button id="clear" onclick="confirmClearEntries()" >Clear Data</button>
+            <button id="download">Download Entries</button>
+        </h6>
+    </main>
+</body>
+<script>
+    function loadEntriesFromLocalStorage() {
+        const entries = JSON.parse(localStorage.getItem('entries')) || [];
+        const entriesSection = document.getElementById('entriesSection');
+        entriesSection.innerHTML = ''; // Clear the section first
+
+        entries.forEach(entry => {
+            const entryDiv = document.createElement('div');
+            entryDiv.classList.add('entry', 'upcoming');
+
+            entryDiv.innerHTML = `
+                <article>
+                    <h1>${entry.name}</h1>
+                    <span>${entry.inTime}</span>
+                    <h2>${entry.department}</h2>
+                    <h3>${entry.information}</h3>
+                    <h4>${entry.reason}</h4>
+                </article>
+            `;
+
+            // Apply background color based on time
+            const timeSpan = entryDiv.querySelector("span");
+            const timeThreshold = "09:30:00";
+            timeSpan.style.backgroundColor =
+            entry.inTime < timeThreshold ? "#65C18C" : "#FA7070";
+            timeSpan.style.color = "white"; // Ensure text is readable
+
+            entriesSection.appendChild(entryDiv);
+        });
+        updateButtonsState();
+    }
+
+
+    function confirmClearEntries() {
+        if (confirm("Are you sure you want to delete all entries?")) {
+          clearEntries();
+        }
+      }
+
+    function clearEntries() {
+        localStorage.removeItem("entries"); // Clear localStorage
+        document.getElementById("entriesSection").innerHTML = `
+        <article>
+          <h1>${entry.name}</h1>
+          <span>${entry.inTime}</span>
+          <h2>${entry.department}</h2>
+          <h3>${entry.information}</h3>
+          <h4>${entry.reason}</h4>
+        </article>
+      `; // Reset the entry container
+        updateButtonsState();
+      }
+
+    // Load entries on page load
+    window.onload = loadEntriesFromLocalStorage;
+  </script>
+</html>
+
+<style>
+    @font-face {
+        font-family: Newake;
+        src: url(./assets/fonts/CreatoDisplay-Black.otf);
+    }
+
+    @font-face {
+        font-family: creato;
+        src: url(./assets/fonts/CreatoDisplay-Medium.otf);
+    }
+
+    body{
+        background: #FBF6EE;
+    }
+
+    main{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    header{
+        font-size: 30px;
+        text-align: center;
+        font-family: Newake;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .fa-arrow-left{
+        size: 10;
+        border: 1px solid black;
+        padding: 3px 5px;
+        border-radius: 50%;
+    }
+
+    .arrow{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    p{
+        margin: 0;
+    }
+    
+    a{
+        text-decoration: none;
+        color: #00000080;
+        font-size: 20px;
+        font-weight: 600;
+        font-family: creato;
+        margin-right: 10px;
+        /* display: block; */
+    }
+
+    a:hover{
+        color: #000000;
+        /* transition: ease-out 0.5s; */
+    }
+
+    section{
+        /* border: 2px solid black; */
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(2, 0fr);
+        justify-content: space-between;
+    }
+
+    article{
+        background-color: #9F70FD;
+        padding: 30px;
+        width: 40vw;
+        display: grid;
+        margin-bottom: 30px;
+        grid-template-columns: auto auto;
+        box-shadow: 7px 7px 0px black;
+    }
+
+    h1, h2, h3, h4, span{
+        font-family: creato;
+        line-height: 0.5;
+        font-weight: 600;
+        font-size: 16px;
+        /* border: 1px solid black; */
+    }
+
+    h1, h2, h4{
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    span{
+        margin-top: 18px;
+        /* text-align: end; */
+    }
+
+    h4{
+        margin-top: 10px;
+        /* text-align: end; */
+    }
+
+    button{
+        background-color: #000000;
+        padding: 20px 20px;
+        width: 150px;
+        color: white;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        font-family: creato;
+        cursor: pointer;
+        /* margin-left: 50%; */
+        margin-top: 20px;
+        /* transform: translateX(-50%); */
+    }
+
+    #clear{
+        background-color: #FF0000;
+        margin-right: 20px;
+    }
+
+    h6{
+        display: flex;
+        justify-content: center;
+    }
+</style>

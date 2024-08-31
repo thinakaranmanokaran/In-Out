@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunch | TAS</title>
+</head>
+<body>
+    <main>
+        <header>
+            Lunch
+            <p>
+                <a href="login.html">Login</a>
+                <a href="breakm.html">Break (M)</a>
+                <a href="breake.html">Break (E)</a>
+            </p>
+        </header>
+        <section>
+            <article>
+                <h1>Name</h1>
+                <span>time</span>
+                <h2>dept</h2>
+                <h3>info</h3>
+                <h4>reason</h4>
+            </article>
+        </section>
+        <button id="download">Download Entries</button>
+    </main>
+</body>
+</html>
+
+<style>
+    @font-face {
+        font-family: Newake;
+        src: url(./assets/fonts/CreatoDisplay-Black.otf);
+    }
+
+    @font-face {
+        font-family: creato;
+        src: url(./assets/fonts/CreatoDisplay-Medium.otf);
+    }
+
+    body{
+        background: #FBF6EE;
+    }
+
+    main{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    header{
+        font-size: 30px;
+        text-align: center;
+        font-family: Newake;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    p{
+        margin: 0;
+    }
+    
+    a{
+        text-decoration: none;
+        color: #00000080;
+        font-size: 20px;
+        font-weight: 600;
+        font-family: creato;
+        margin-right: 10px;
+    }
+
+    a:hover{
+        color: #000000;
+        /* transition: ease-out 0.5s; */
+    }
+
+    section{
+        /* border: 2px solid black; */
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(2, 0fr);
+        justify-content: space-between;
+    }
+
+    article{
+        background-color: #9CF196;
+        padding: 30px;
+        width: 40vw;
+        display: grid;
+        margin-bottom: 30px;
+        grid-template-columns: auto auto;
+        box-shadow: 7px 7px 0px black;
+    }
+
+    h1, h2, h3, h4, span{
+        font-family: creato;
+        line-height: 0.5;
+        font-weight: 600;
+        font-size: 16px;
+        /* border: 1px solid black; */
+    }
+
+    h1, h2, h4{
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    span{
+        margin-top: 18px;
+        /* text-align: end; */
+    }
+
+    h4{
+        margin-top: 10px;
+        /* text-align: end; */
+    }
+
+    button{
+        background-color: #000000;
+        padding: 20px 20px;
+        width: 150px;
+        color: white;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        font-family: creato;
+        cursor: pointer;
+        margin-left: 50%;
+        margin-top: 20px;
+        transform: translateX(-50%);
+    }
+</style>

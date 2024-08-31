@@ -1,380 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <title>In & Out Printer</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    * {
-      font-family: "Poppins", system-ui;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet"
+    />
+    <title>In & Out Printer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @font-face {
+            font-family: Newake;
+            src: url(./assets/fonts/CreatoDisplay-Black.otf);
+        }
 
-    body {
-      background: #f8eded;
-      margin-top: 20px;
-    }
+        @font-face {
+            font-family: creato;
+            src: url(./assets/fonts/CreatoDisplay-Medium.otf);
+        }
 
-    h1, p {
-      text-align: center;
-      color: #242424;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-    #download {
-        margin-top: 10px;
-    }
+        body {
+            background: #fbf6ee;
+            margin-top: 20px;
+        }
 
-    input, select, button {
-      width: 15vw;
-      height: 5vh;
-      border-radius: 0px;
-      border: 1px solid #242424;
-      padding-left: 10px;
-      margin-right: 20px;
-    }
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-    button {
-      font-weight: 600;
-      background: #242424;
-      color: aliceblue;
-    }
+        h1 {
+            text-align: center;
+            font-family: Newake;
+        }
 
-    input:focus {
-      outline-color: #242424;
-    }
+        p {
+            font-family: creato;
+            text-align: center;
+            margin-top: 10px;
+        }
 
-    section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin: 20px 0;
-    }
+        #download {
+            margin-top: 10px;
+        }
 
-    article {
-      text-align: center;
-    }
+        #sectionSel {
+            background: #000000;
+            width: 300px;
+            height: 7vh;
+            color: #fff;
+            box-shadow: 3px 3px 0px #000000;
+        }
 
-    .entry {
-      display: flex;
-      justify-content: space-around;
-      margin: 10px 0;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-    }
+        select,
+        button {
+            width: 215px;
+            height: 5vh;
+            border-radius: 0px;
+            border: 1px solid #000000;
+            padding-left: 10px;
+            box-shadow: 3px 3px 0px #000000;
+            font-family: creato;
+        }
 
-    .upcoming {
-      font-weight: 400;
-    }
+        select:focus,
+        input:focus,
+        button:focus {
+            box-shadow: none;
+            border: 1px solid #000000;
+            outline: 0px;
+        }
 
-    .entry span {
-      width: 15vw;
-      text-align: center;
-      padding: 5px;
-      border-radius: 5px;
-    }
+        input {
+            width: 15vw;
+            height: 5vh;
+            border-radius: 0px;
+            border: 1px solid #000000;
+            padding-left: 10px;
+            box-shadow: 3px 3px 0px #000000;
+            font-family: creato;
+        }
 
-    hr {
-      border: 1px solid #242424;
-    }
+        button {
+            background: #000000;
+            color: aliceblue;
+        }
 
-    @media (max-width: 768px) {
-      h1 {
-        text-align: center;
-        margin-top: 20px;
-      }
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            background: #9fb4ff;
+            padding: 90px 0px;
+            width: 30vw;
+            box-shadow: 7px 7px 0px #000000;
+        }
 
-      section {
-        display: block;
-      }
+        article {
+            text-align: center;
+        }
 
-      input, select, button {
-        width: 90%;
-        margin: 5px;
-        margin-left: 20px;
-      }
+        .entry {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
 
-      .entryContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
+        .upcoming {
+            font-weight: 400;
+        }
 
-      .entry {
-        /* width: 90vw; */
-        color: #242424;
-      }
-    }
+        .entry span {
+            width: 15vw;
+            text-align: center;
+            padding: 5px;
+            border-radius: 5px;
+        }
 
-    @media (max-width: 425px) {
-      .para {
-        display: none;
-      }
+        hr {
+            border: 1px solid #242424;
+        }
 
-      hr {
-        display: none;
-      }
+        @media (max-width: 768px) {
+            h1 {
+                text-align: center;
+                margin-top: 20px;
+            }
 
-      .upcoming {
-        font-size: 12px;
-        display: grid;
-        grid-template-columns: repeat(2, 0fr);
-        /* gap: 5px; */
-        /* justify-items: center; */
-        margin-left: 1vw;
-        width: 80vw;
-      }
+            section {
+                display: block;
+            }
 
-      .entryContainer {
-        display: flex;
-        /* justify-content: center; */
-      }
+            input,
+            select,
+            button {
+                width: 90%;
+                margin: 5px;
+                margin-left: 20px;
+            }
 
-      button {
-        height: 8vh;
-      }
+            .entryContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
 
-      .entry{
-        background: #242424;
-        border-radius: 10px;
-        padding: 14px;
-        width: 90vw;
-        color: #f8eded;
-      }
-    }
-  </style>
+            .entry {
+                color: #242424;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .para {
+                display: none;
+            }
+
+            hr {
+                display: none;
+            }
+
+            .upcoming {
+                font-size: 12px;
+                display: grid;
+                grid-template-columns: repeat(2, 0fr);
+                margin-left: 1vw;
+                width: 80vw;
+            }
+
+            .entryContainer {
+                display: flex;
+            }
+
+            button {
+                height: 8vh;
+            }
+
+            .entry {
+                background: #242424;
+                border-radius: 10px;
+                padding: 14px;
+                width: 90vw;
+                color: #f8eded;
+            }
+        }
+    </style>
 </head>
 <body>
-  <main>
+<main>
     <header>
-      <h1>AIM'zz</h1>
-      <p id="datetime">Loading current date and time...</p>
+        <h1>AIM'zz</h1>
+        <p id="datetime">Loading current date and time...</p>
     </header>
     <section>
-      <input type="text" id="nameInput" placeholder="Enter Name...">
-      <select id="departmentSelect">
-        <optgroup>
-          <option value="DBA">DBA</option>
-          <option value="Development">Development</option>
-          <option value="Digital Marketing">Digital Marketing</option>
-          <option value="Trainer">Trainer</option>
-          <option value="Operation Manager">Operation Manager</option>
-          <option value="Managing Director">Managing Director</option>
-          <option value="Visitors">Visitors</option>
-        </optgroup>
-      </select>
-      <select name="" id="informationInput">
-        <optgroup>
-          <option value="-">-</option>
-          <option value="Informed">Informed</option>
-          <option value="Not-Informed">Not-Informed</option>
-        </optgroup>
-      </select>
-      <input type="text" id="reasonInput" placeholder="Enter Reason...">
-      <button onclick="addEntry()">Submit</button>
-      <button id="clear" onclick="confirmClearEntries()">Clear All Entries</button> <!-- Button to clear all entries -->
+        <select name="" id="sectionSel">
+            <option value="Login">Login</option>
+            <option value="Break-Morning">Break-Morning</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Break-Evening">Break-Evening</option>
+        </select>
+        <input type="text" id="nameInput" placeholder="Enter Name..." />
+        <select id="departmentSelect">
+            <option value="DBA">DBA</option>
+            <option value="Development">Development</option>
+            <option value="Digital Marketing">Digital Marketing</option>
+            <option value="Trainer">Trainer</option>
+            <option value="Operation Manager">Operation Manager</option>
+            <option value="Managing Director">Managing Director</option>
+            <option value="Visitors">Visitors</option>
+        </select>
+        <select name="" id="informationInput">
+            <option value="-">-</option>
+            <option value="Informed">Informed</option>
+            <option value="Not-Informed">Not-Informed</option>
+        </select>
+        <input type="text" id="reasonInput" placeholder="Enter Reason..." />
+        <button onclick="addEntry()">Submit</button>
     </section>
-    <article id="entryContainer" class="entryContainer">
-      <div class="entry para">
-        <span>Name</span>
-        <span>In-Time</span>
-        <span>Department</span>
-        <span>Information</span>
-        <span>Reason</span>
-      </div>
-      <hr>
-    </article>
-    <p>
-        <button id="download">Download PDF</button>
-    </p>
-  </main>
-  <script>
+</main>
+<script>
     function updateDateTime() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-  
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const month = monthNames[now.getMonth()];
-  
-      document.getElementById('datetime').textContent = `${hours}:${minutes}:${seconds} | ${day}-${month}`;
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+
+        const monthNames = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        const month = monthNames[now.getMonth()];
+
+        document.getElementById("datetime").textContent = `${hours}:${minutes}:${seconds} | ${day}-${month}`;
     }
-  
+
     updateDateTime();
     setInterval(updateDateTime, 1000);
-  
+
     function addEntry() {
-      const name = document.getElementById('nameInput').value.toUpperCase(); // Convert name to uppercase
-      const department = document.getElementById('departmentSelect').value;
-      const information = document.getElementById('informationInput').value;
-      const reason = document.getElementById('reasonInput').value;
-  
-      if (!name || !information) {
-        alert('Please fill all fields.');
-        return;
-      }
-  
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-  
-      const inTime = `${hours}:${minutes}:${seconds}`;
-  
-      const entryContainer = document.getElementById('entryContainer');
-  
-      const newEntry = document.createElement('div');
-      newEntry.classList.add('entry', 'upcoming');
-  
-      newEntry.innerHTML = `
-        <span>${name}</span>
-        <span class="time">${inTime}</span>
-        <span>${department}</span>
-        <span>${information}</span>
-        <span>${reason}</span>
-      `;
-  
-      // Apply background color based on time
-      const timeSpan = newEntry.querySelector('.time');
-      const timeThreshold = '09:30:00';
-      timeSpan.style.backgroundColor = inTime < timeThreshold ? '#65C18C' : '#FA7070';
-      timeSpan.style.color = 'white'; // Ensure text is readable
-  
-      entryContainer.appendChild(newEntry);
-  
-      saveToLocalStorage(name, inTime, department, information, reason); // Save data to localStorage
-      updateButtonsState();
-  
-      document.getElementById('nameInput').value = '';
-      document.getElementById('reasonInput').value = '';
+        const name = document.getElementById("nameInput").value.toUpperCase();
+        const department = document.getElementById("departmentSelect").value;
+        const information = document.getElementById("informationInput").value;
+        const reason = document.getElementById("reasonInput").value;
+
+        if (!name || !information) {
+            alert("Please fill all required fields.");
+            return;
+        }
+
+        const now = new Date();
+        const formattedTime = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+        const entry = {
+            name,
+            department,
+            information,
+            reason,
+            time: formattedTime,
+        };
+
+        let entries = JSON.parse(localStorage.getItem("entries")) || [];
+        entries.push(entry);
+        localStorage.setItem("entries", JSON.stringify(entries));
+
+        const entryContainer = document.getElementById("entryContainer");
+
+        const entryDiv = document.createElement("div");
+        entryDiv.className = "entry";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = name;
+
+        const departmentSpan = document.createElement("span");
+        departmentSpan.textContent = department;
+
+        const informationSpan = document.createElement("span");
+        informationSpan.textContent = information;
+
+        const reasonSpan = document.createElement("span");
+        reasonSpan.textContent = reason;
+
+        const timeSpan = document.createElement("span");
+        timeSpan.textContent = formattedTime;
+
+        entryDiv.appendChild(nameSpan);
+        entryDiv.appendChild(departmentSpan);
+        entryDiv.appendChild(informationSpan);
+        entryDiv.appendChild(reasonSpan);
+        entryDiv.appendChild(timeSpan);
+
+        entryContainer.appendChild(entryDiv);
+
+        updateButtonStates();
     }
-  
-    function saveToLocalStorage(name, inTime, department, information, reason) {
-      const entries = JSON.parse(localStorage.getItem('entries')) || [];
-      entries.push({ name, inTime, department, information, reason });
-      localStorage.setItem('entries', JSON.stringify(entries));
+
+    function loadEntries() {
+        const entries = JSON.parse(localStorage.getItem("entries")) || [];
+        const entryContainer = document.getElementById("entryContainer");
+
+        entries.forEach(entry => {
+            const entryDiv = document.createElement("div");
+            entryDiv.className = "entry";
+
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = entry.name;
+
+            const departmentSpan = document.createElement("span");
+            departmentSpan.textContent = entry.department;
+
+            const informationSpan = document.createElement("span");
+            informationSpan.textContent = entry.information;
+
+            const reasonSpan = document.createElement("span");
+            reasonSpan.textContent = entry.reason;
+
+            const timeSpan = document.createElement("span");
+            timeSpan.textContent = entry.time;
+
+            entryDiv.appendChild(nameSpan);
+            entryDiv.appendChild(departmentSpan);
+            entryDiv.appendChild(informationSpan);
+            entryDiv.appendChild(reasonSpan);
+            entryDiv.appendChild(timeSpan);
+
+            const currentTime = new Date();
+            const [hours, minutes] = entry.time.split(':');
+            const entryTime = new Date();
+            entryTime.setHours(parseInt(hours, 10));
+            entryTime.setMinutes(parseInt(minutes, 10));
+
+            if (entryTime.getHours() < currentTime.getHours()) {
+                timeSpan.style.backgroundColor = 'green';
+            } else if (entryTime.getHours() === currentTime.getHours() && entryTime.getMinutes() < currentTime.getMinutes()) {
+                timeSpan.style.backgroundColor = 'green';
+            } else if (entryTime.getHours() === currentTime.getHours() && entryTime.getMinutes() === currentTime.getMinutes()) {
+                timeSpan.style.backgroundColor = 'orange';
+            } else {
+                timeSpan.style.backgroundColor = 'red';
+            }
+
+            entryContainer.appendChild(entryDiv);
+        });
+
+        updateButtonStates();
     }
-  
-    function loadEntriesFromLocalStorage() {
-      const entries = JSON.parse(localStorage.getItem('entries')) || [];
-      entries.forEach(entry => {
-        const entryContainer = document.getElementById('entryContainer');
-  
-        const newEntry = document.createElement('div');
-        newEntry.classList.add('entry', 'upcoming');
-  
-        newEntry.innerHTML = `
-          <span>${entry.name}</span>
-          <span class="time">${entry.inTime}</span>
-          <span>${entry.department}</span>
-          <span>${entry.information}</span>
-          <span>${entry.reason}</span>
-        `;
-  
-        // Apply background color based on time
-        const timeSpan = newEntry.querySelector('.time');
-        const timeThreshold = '09:30:00';
-        timeSpan.style.backgroundColor = entry.inTime < timeThreshold ? '#65C18C' : '#FA7070';
-        timeSpan.style.color = 'white'; // Ensure text is readable
-  
-        entryContainer.appendChild(newEntry);
-      });
-      updateButtonsState();
-    }
-  
-    function updateButtonsState() {
-      const entries = document.querySelectorAll('.entry.upcoming');
-      const clearButton = document.getElementById('clear');
-      const downloadButton = document.getElementById('download');
-      
-      if (entries.length === 0) {
-        clearButton.disabled = true;
-        downloadButton.disabled = true;
-      } else {
-        clearButton.disabled = false;
-        downloadButton.disabled = false;
-      }
-    }
-  
-    function confirmClearEntries() {
-      if (confirm("Are you sure you want to delete all entries?")) {
-        clearEntries();
-      }
-    }
-  
+
     function clearEntries() {
-      localStorage.removeItem('entries'); // Clear localStorage
-      document.getElementById('entryContainer').innerHTML = `
-        <div class="entry para">
-          <span>Name</span>
-          <span>In-Time</span>
-          <span>Department</span>
-          <span>Information</span>
-          <span>Reason</span>
-        </div>
-        <hr>
-      `; // Reset the entry container
-      updateButtonsState();
+        localStorage.removeItem("entries");
+        document.getElementById("entryContainer").innerHTML = "";
+        updateButtonStates();
     }
-  
-    // Load stored entries on page load
-    window.onload = loadEntriesFromLocalStorage;
-  
-    // Function to download PDF
-    function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
 
-  // Get current date and time
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
-  const day = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
+    function updateButtonStates() {
+        const entries = JSON.parse(localStorage.getItem("entries")) || [];
+        document.getElementById("clear").disabled = entries.length === 0;
+        document.getElementById("download").disabled = entries.length === 0;
+    }
 
-  // Format date and time for filename
-  const dateTimeStr = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
-
-  // Prepare PDF content
-  const entries = document.querySelectorAll('.entry.upcoming');
-  let y = 10; // Starting Y position in the PDF
-
-        // Adding header to the PDF
-        doc.text('Name    |    In-Time     |     Department    |   Information   |    Reason   ', 10, y);
-      y += 10;
-      doc.line(10, y, 200, y); // Line below the header
-      y += 15;
-
-  entries.forEach(entry => {
-    const spans = entry.querySelectorAll('span');
-    let entryText = '';
-
-    spans.forEach(span => {
-      entryText += `${span.textContent} | `;
-    });
-
-    entryText = entryText.slice(0, -3); // Remove the last separator
-
-    doc.text(entryText, 10, y);
-    y += 10; // Move Y position for the next entry
-  });
-
-  // Save PDF with the current date and time in the filename
-  doc.save(`entries_${dateTimeStr}.pdf`);
-}
-
-  
-    // Attach the PDF download function to the button
-    document.getElementById('download').addEventListener('click', downloadPDF);
-  </script>
+    window.onload = function () {
+        loadEntries();
+    };
+</script>
 </body>
 </html>
