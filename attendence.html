@@ -297,6 +297,12 @@
         a:hover{
             background: #00000020;
         }
+
+        .clearbtt{
+            color: #ff0000;
+            /* margin-top: 250px; */
+            cursor: pointer;
+        }
         
         .aft{
             margin-top: 40px;
@@ -350,6 +356,7 @@
         <input type="text" id="reasonInput" placeholder="Enter Reason..." />
         <button onclick="addEntry()">Submit</button>
     </section>
+    <div id="entryContainer"></div>
     <article>
         <i class="fa-solid fa-ellipsis-vertical" onclick="openMenu()" ></i>
         <h4 id="menu">
@@ -357,28 +364,29 @@
             <a href="breakm.html"><i class="fa-solid fa-mug-hot" id="linkI" ></i>&nbsp;&nbsp;Break Morning</a>
             <a href="lunch.html"><i class="fa-solid fa-utensils" id="linkI" ></i>&nbsp;&nbsp; Lunch</a>
             <a href="breake.html"><i class="fa-solid fa-glass-water" id="linkI" ></i>&nbsp;&nbsp; Break Evening</a>
+            <a class="clearbtt" onclick="eraserAlert()" ><i class="fa-solid fa-trash" id="linkI" ></i>&nbsp;&nbsp; Clear All Entries</a>
             <i class="fa-solid fa-xmark" onclick="closeMenu()" ></i>
+            <!-- <h5 id="liki">Clear All entries</h5> -->
         </h4>
         
     </article>
 </main>
 <script>
-    function updateDateTime() {
+        function updateDateTime() {
         const now = new Date();
-        const hours = String(now.getHours()).padStart(2, "0");
-        const minutes = String(now.getMinutes()).padStart(2, "0");
-        const seconds = String(now.getSeconds()).padStart(2, "0");
-        const day = String(now.getDate()).padStart(2, "0");
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
 
-        const monthNames = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        ];
+        // Array of month names abbreviated to the first three letters
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const month = monthNames[now.getMonth()];
 
-        document.getElementById("datetime").textContent = `${hours}:${minutes}:${seconds} | ${day}-${month}`;
+        document.getElementById('datetime').textContent = `${hours}:${minutes}:${seconds} | ${day}-${month}`;
     }
 
+    // Update the date and time immediately and every second
     updateDateTime();
     setInterval(updateDateTime, 1000);
 
@@ -387,6 +395,7 @@
         const department = document.getElementById("departmentSelect").value;
         const information = document.getElementById("informationInput").value;
         const reason = document.getElementById("reasonInput").value;
+        const section = document.getElementById("sectionSel").value;
 
         if (!name || !information) {
             alert("Please fill all required fields.");
@@ -404,44 +413,25 @@
             time: formattedTime,
         };
 
-        let entries = JSON.parse(localStorage.getItem("entries")) || [];
+        let entries = JSON.parse(localStorage.getItem(section)) || [];
         entries.push(entry);
-        localStorage.setItem("entries", JSON.stringify(entries));
-        alert('Enry Stored !')
+        localStorage.setItem(section, JSON.stringify(entries));
 
-        const entryContainer = document.getElementById("entryContainer");
-
-        const entryDiv = document.createElement("div");
-        entryDiv.className = "entry";
-
-        const nameSpan = document.createElement("span");
-        nameSpan.textContent = name;
-
-        const departmentSpan = document.createElement("span");
-        departmentSpan.textContent = department;
-
-        const informationSpan = document.createElement("span");
-        informationSpan.textContent = information;
-
-        const reasonSpan = document.createElement("span");
-        reasonSpan.textContent = reason;
-
-        const timeSpan = document.createElement("span");
-        timeSpan.textContent = formattedTime;
-
-        entryDiv.appendChild(nameSpan);
-        entryDiv.appendChild(departmentSpan);
-        entryDiv.appendChild(informationSpan);
-        entryDiv.appendChild(reasonSpan);
-        entryDiv.appendChild(timeSpan);
-
-        entryContainer.appendChild(entryDiv);
+        alert('Entry Stored!');
 
         updateButtonStates();
     }
 
     function loadEntries() {
-        const entries = JSON.parse(localStorage.getItem("entries")) || [];
+        const sectionMap = {
+            "login.html": "Login",
+            "breakm.html": "Break-Morning",
+            "lunch.html": "Lunch",
+            "breake.html": "Break-Evening"
+        };
+
+        const currentSection = sectionMap[window.location.pathname.split("/").pop()];
+        const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
         const entryContainer = document.getElementById("entryContainer");
 
         entries.forEach(entry => {
@@ -469,39 +459,84 @@
             entryDiv.appendChild(reasonSpan);
             entryDiv.appendChild(timeSpan);
 
-            const currentTime = new Date();
-            const [hours, minutes] = entry.time.split(':');
-            const entryTime = new Date();
-            entryTime.setHours(parseInt(hours, 10));
-            entryTime.setMinutes(parseInt(minutes, 10));
-
-            if (entryTime.getHours() < currentTime.getHours()) {
-                timeSpan.style.backgroundColor = 'green';
-            } else if (entryTime.getHours() === currentTime.getHours() && entryTime.getMinutes() < currentTime.getMinutes()) {
-                timeSpan.style.backgroundColor = 'green';
-            } else if (entryTime.getHours() === currentTime.getHours() && entryTime.getMinutes() === currentTime.getMinutes()) {
-                timeSpan.style.backgroundColor = 'orange';
-            } else {
-                timeSpan.style.backgroundColor = 'red';
-            }
-
             entryContainer.appendChild(entryDiv);
         });
+        console.log(localStorage.getItem('Login'));
 
         updateButtonStates();
     }
 
     function clearEntries() {
-        localStorage.removeItem("entries");
+        const sectionMap = {
+            "login.html": "Login",
+            "breakm.html": "Break-Morning",
+            "lunch.html": "Lunch",
+            "breake.html": "Break-Evening"
+        };
+
+        const currentSection = sectionMap[window.location.pathname.split("/").pop()];
+        localStorage.removeItem(currentSection);
         document.getElementById("entryContainer").innerHTML = "";
         updateButtonStates();
     }
 
     function updateButtonStates() {
-        const entries = JSON.parse(localStorage.getItem("entries")) || [];
+        const sectionMap = {
+            "login.html": "Login",
+            "breakm.html": "Break-Morning",
+            "lunch.html": "Lunch",
+            "breake.html": "Break-Evening"
+        };
+
+        const currentSection = sectionMap[window.location.pathname.split("/").pop()];
+        const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
         document.getElementById("clear").disabled = entries.length === 0;
         document.getElementById("download").disabled = entries.length === 0;
     }
+
+    function eraserAlert() {
+    const sections = ["Login", "Break-Morning", "Lunch", "Break-Evening"];
+    let entriesExist = false;
+
+    // Check if any section has entries in localStorage
+    for (let section of sections) {
+        const entries = JSON.parse(localStorage.getItem(section)) || [];
+        if (entries.length > 0) {
+            entriesExist = true;
+            break;
+        }
+    }
+
+    if (!entriesExist) {
+        alert("Entries are already erased!");
+    } else {
+        confirmClearAllEntries();
+    }
+}
+
+function confirmClearAllEntries() {
+    if (confirm("Are you sure you want to delete all Entries?")) {
+        clearAllEntries();
+
+    }
+}
+
+function clearAllEntries() {
+    const sections = ["Login", "Break-Morning", "Lunch", "Break-Evening"];
+
+    sections.forEach(section => {
+        localStorage.removeItem(section);
+    });
+
+    const entryContainer = document.getElementById("entriesSection");
+    if (entryContainer) {
+        entryContainer.innerHTML = '';
+    }
+
+    updateButtonStates([]);
+    console.log("All data cleared");
+}
+
 
     window.onload = function () {
         loadEntries();
@@ -521,5 +556,6 @@
         console.log('closed');
     }
 </script>
+
 </body>
 </html>
