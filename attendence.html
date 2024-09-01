@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
         rel="stylesheet"
@@ -30,6 +31,7 @@
         body {
             background: #fbf6ee;
             margin-top: 20px;
+            overflow: hidden;
         }
 
         main {
@@ -59,7 +61,7 @@
             width: 300px;
             height: 7vh;
             color: #fff;
-            box-shadow: 3px 3px 0px #000000;
+            box-shadow: 3px 3px 0px #00000080;
         }
 
         select,
@@ -82,7 +84,7 @@
         }
 
         input {
-            width: 15vw;
+            width: 204px;
             height: 5vh;
             border-radius: 0px;
             border: 1px solid #000000;
@@ -137,67 +139,184 @@
         }
 
         @media (max-width: 768px) {
-            h1 {
-                text-align: center;
-                margin-top: 20px;
+            section{
+                width: 70vw;
             }
 
-            section {
-                display: block;
+            .fa-ellipsis-vertical{
+                position: absolute;
+                left: -50px;
+                /* border: 2px solid black; */
             }
 
-            input,
-            select,
-            button {
-                width: 90%;
-                margin: 5px;
-                margin-left: 20px;
+            h4{
+                left: 70px;
+                width: 60vw;
             }
 
-            .entryContainer {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
+            .menuShow{
+                transform: translateX(-40vw);
+                transition: transform 0.7s ease;
+                left: -40px;
             }
-
-            .entry {
-                color: #242424;
+            
+            .menuClose{
+                transform: translateX(40vw);
+                transition: transform 0.7s ease;
+                left: -40px;
             }
         }
-
+        
         @media (max-width: 425px) {
-            .para {
-                display: none;
-            }
-
-            hr {
-                display: none;
-            }
-
-            .upcoming {
-                font-size: 12px;
-                display: grid;
-                grid-template-columns: repeat(2, 0fr);
-                margin-left: 1vw;
+            section{
                 width: 80vw;
             }
-
-            .entryContainer {
-                display: flex;
-            }
-
-            button {
-                height: 8vh;
-            }
-
-            .entry {
-                background: #242424;
-                border-radius: 10px;
-                padding: 14px;
-                width: 90vw;
-                color: #f8eded;
-            }
+            
+                        .fa-ellipsis-vertical{
+                            position: absolute;
+                            left: 10px;
+                            /* border: 2px solid black; */
+                        }
+            
+                        h4{
+                            left: 270px;
+                            width: 60vw !important;
+                            position: absolute;
+                            bottom: -92vh !important;
+                            background: #ffffff60 !important;
+                            backdrop-filter: blur(20px);
+                        }
+            
+                        .menuShow{
+                            transform: translateX(-50vw) !important;
+                            transition: transform 0.7s ease;
+                            left: 40px;
+                        }
+                        
+                        .menuClose{
+                            transform: translateX(50vw);
+                            transition: transform 0.7s ease;
+                            left: 40px;
+                        }
         }
+
+        @media (max-width: 320px) {
+            section{
+                width: 90vw;
+            }
+
+            #sectionSel{
+                width: 250px;
+            }
+
+            .fa-ellipsis-vertical{
+                            position: absolute;
+                            left: -40px;
+                            scale: 1 !important;
+                            top: 20px;
+                            /* border: 2px solid black; */
+                        }
+
+                        .fa-xmark{
+                            scale: 1 !important;
+                        }
+            
+                        h4{
+                            left: 60px !important;
+                            width: 60vw !important;
+                            position: absolute;
+                            bottom: -92vh !important;
+                            background: #ffffff60 !important;
+                            backdrop-filter: blur(20px);
+                        }
+            
+                        .menuShow{
+                            transform: translateX(-80vw) !important;
+                            transition: transform 0.7s ease;
+                            left: 40px;
+                        }
+                        
+                        .menuClose{
+                            transform: translateX(80vw);
+                            transition: transform 0.7s ease;
+                            left: 40px;
+                        }
+        }
+
+        article{
+            position: absolute;
+            top: 10px;
+            left: 94vw;
+            padding: 30px;
+        }
+
+        .fa-ellipsis-vertical{
+            scale: 1.5;
+            right: 20px;
+            position: absolute;
+            /* z-index: 4; */
+            cursor: pointer;
+        }
+        
+        .fa-xmark{
+            scale: 1.5;
+            top: 60px;
+            left: -30px;
+            position: absolute;
+            /* border: 2px solid black; */
+            cursor: pointer;
+        }
+
+        h4{
+            background: #fff;
+            width: 20vw;
+            /* border: #000000 2px solid; */
+            height: 90vh;
+            position: absolute;
+            top: -1;
+            right: -410px;
+            bottom: -89vh;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            padding: 40px 80px 40px 0px;
+            /* padding-top: 100px; */
+            box-shadow: 0px 0px 50px #000;
+        }
+
+        a{
+            margin-bottom: 20px;
+            font-family: creato;
+            text-decoration: none;
+            color: #000000;
+            font-size: 18px;
+            /* border: 1px solid black; */
+            padding: 10px 10px 10px 30px;
+        }
+
+        a:hover{
+            background: #00000020;
+        }
+        
+        .aft{
+            margin-top: 40px;
+        }
+
+        .menuShow{
+            transform: translateX(-20vw);
+            transition: transform 0.7s ease
+        }
+        
+        .menuClose{
+            transform: translateX(20vw);
+            transition: transform 0.7s ease
+        }
+
+        .linkI{
+            padding-bottom: 5px;
+            padding-right: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -231,6 +350,17 @@
         <input type="text" id="reasonInput" placeholder="Enter Reason..." />
         <button onclick="addEntry()">Submit</button>
     </section>
+    <article>
+        <i class="fa-solid fa-ellipsis-vertical" onclick="openMenu()" ></i>
+        <h4 id="menu">
+            <a href="login.html" class="aft"><i class="fa-solid fa-mountain-sun" id="linkI" ></i>&nbsp;&nbsp;Login</a>
+            <a href="breakm.html"><i class="fa-solid fa-mug-hot" id="linkI" ></i>&nbsp;&nbsp;Break Morning</a>
+            <a href="lunch.html"><i class="fa-solid fa-utensils" id="linkI" ></i>&nbsp;&nbsp; Lunch</a>
+            <a href="breake.html"><i class="fa-solid fa-glass-water" id="linkI" ></i>&nbsp;&nbsp; Break Evening</a>
+            <i class="fa-solid fa-xmark" onclick="closeMenu()" ></i>
+        </h4>
+        
+    </article>
 </main>
 <script>
     function updateDateTime() {
@@ -277,6 +407,7 @@
         let entries = JSON.parse(localStorage.getItem("entries")) || [];
         entries.push(entry);
         localStorage.setItem("entries", JSON.stringify(entries));
+        alert('Enry Stored !')
 
         const entryContainer = document.getElementById("entryContainer");
 
@@ -375,6 +506,20 @@
     window.onload = function () {
         loadEntries();
     };
+
+    function openMenu(){
+        const menu = document.getElementById("menu");
+        menu.classList.add('menuShow')
+        menu.classList.remove('menuClose')
+        console.log('opened');
+    }
+    
+    function closeMenu(){
+        const menu = document.getElementById("menu");
+        menu.classList.add('menuClose')
+        menu.classList.remove('menuShow')
+        console.log('closed');
+    }
 </script>
 </body>
 </html>

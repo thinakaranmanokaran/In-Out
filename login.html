@@ -13,10 +13,10 @@
                 <a href="attendence.html" class="arrow"><i class="fa-solid fa-arrow-left"></i></a>
                 Login
             </p>
-            <p>
-                <a href="breakm.html">Break (M)</a>
-                <a href="lunch.html">Lunch</a>
-                <a href="breake.html">Break (E)</a>
+            <p id="likP" >
+                <a href="breakm.html" title="Break Morning" ><i class="fa-solid fa-mug-hot" id="linkI" ></i></a>
+                <a href="lunch.html" title="Lunch"><i class="fa-solid fa-utensils" id="linkI" ></i></a>
+                <a href="breake.html" title="Break Evening" ><i class="fa-solid fa-glass-water" id="linkI" ></i></a>
             </p>
         </header>
         <section  id="entriesSection" class="entry-container">
@@ -40,7 +40,7 @@
             entryDiv.innerHTML = `
                 <article>
                     <h1>${entry.name}</h1>
-                    <span>${entry.inTime}</span>
+                    <span>${entry.time}</span>
                     <h2>${entry.department}</h2>
                     <h3>${entry.information}</h3>
                     <h4>${entry.reason}</h4>
@@ -51,12 +51,11 @@
             const timeSpan = entryDiv.querySelector("span");
             const timeThreshold = "09:30:00";
             timeSpan.style.backgroundColor =
-            entry.inTime < timeThreshold ? "#65C18C" : "#FA7070";
-            timeSpan.style.color = "white"; // Ensure text is readable
+            entry.inTime < timeThreshold ? "#65C18C" : "#ffffff";
 
             entriesSection.appendChild(entryDiv);
         });
-        updateButtonsState();
+        // updateButtonsState();
     }
 
 
@@ -77,7 +76,9 @@
           <h4>${entry.reason}</h4>
         </article>
       `; // Reset the entry container
-        updateButtonsState();
+        // updateButtonsState();
+        console.log(`${entry.inTime}`);
+        
       }
 
     // Load entries on page load
@@ -118,18 +119,21 @@
 
     .fa-arrow-left{
         size: 10;
-        border: 1px solid black;
+        /* border: 1px solid black; */
         padding: 3px 5px;
         border-radius: 50%;
+        margin-right: 10px;
     }
 
     .arrow{
-        margin: 0px;
+        margin: 5px;
         padding: 0px;
     }
 
     p{
         margin: 0;
+        /* border: 2px solid black; */
+        display: flex;
     }
     
     a{
@@ -138,7 +142,7 @@
         font-size: 20px;
         font-weight: 600;
         font-family: creato;
-        margin-right: 10px;
+        margin-right: 20px;
         /* display: block; */
     }
 
@@ -179,13 +183,25 @@
     }
 
     span{
-        margin-top: 18px;
+        margin-top: 10px;
         /* text-align: end; */
+        padding: 13px 10px 10px 10px;
+        width: min-content;
+        color: #000000;
+        font-weight: 500;
+        border-radius: 10px;
+        margin-left: 400px;
     }
 
     h4{
         margin-top: 10px;
         /* text-align: end; */
+    }
+    
+    h3{
+        text-align: end;
+        /* margin-right: 30px; */
+        /* margin-left: -200px; */
     }
 
     button{
@@ -211,5 +227,68 @@
     h6{
         display: flex;
         justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        section{
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            align-items: center;
+        }
+
+        article{
+            width: 80vw;
+        }
+
+        span{
+            margin-left: 60vw;
+        }
+    }
+
+    @media (max-width: 425px) {
+        header{
+            margin-left: -50px;
+        }
+
+        .fa-arrow-left{
+            margin-right: 0px;
+        }
+
+        #likP{
+            margin-left: 200px;
+        }
+
+        span{
+            margin-left: 50vw;
+        }
+    }
+
+    @media (max-width:  320px) {
+        p{
+            font-size: 24px;
+        }
+
+        #likP{
+            margin-left: 140px;
+        }
+
+        a{
+            margin-right: 5px;
+            scale: 0.8;
+        }
+
+        article{
+            width: 70vw;
+        }
+
+        span{
+            margin-left: 20vw;
+        }
+
+        button{
+            font-size: 10px;
+            padding: 20px 10px;
+        }
     }
 </style>
