@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Lunch | TAS</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
     <main>
@@ -41,10 +42,9 @@
         const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
         const entryContainer = document.getElementById("entriesSection");
     
-        // Clear existing entries before adding new ones
-        entryContainer.innerHTML = '';
+        entryContainer.innerHTML = ''; // Clear existing entries before adding new ones
     
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             const entryDiv = document.createElement("article");
             entryDiv.className = "entry";
     
@@ -63,16 +63,126 @@
             const reasonElement = document.createElement("h4");
             reasonElement.textContent = entry.reason;
     
+            const spaceElement = document.createElement("span");
+            spaceElement.textContent = '';
+    
             entryDiv.appendChild(nameElement);
             entryDiv.appendChild(timeSpan);
             entryDiv.appendChild(departmentElement);
             entryDiv.appendChild(informationElement);
             entryDiv.appendChild(reasonElement);
+            entryDiv.appendChild(spaceElement);
+    
+            // Create buttons for "Morning Break", "Lunch", "Evening Break"
+            // const morningBreakButton = createBreakButton("Morning Break", entryDiv);
+            // const lunchButton = createBreakButton("Lunch", entryDiv);
+            // const eveningBreakButton = createBreakButton("Evening Break", entryDiv);
+    
+            // entryDiv.appendChild(morningBreakButton);
+            // entryDiv.appendChild(lunchButton);
+            // entryDiv.appendChild(eveningBreakButton);
     
             entryContainer.appendChild(entryDiv);
         });
     
-        updateButtonStates();
+        updateButtonStates(entries);
+    }
+    
+    function createBreakButton(buttonText, entryDiv) {
+        const button = document.createElement("button");
+        button.textContent = buttonText;
+    
+        const startTimeSpan = document.createElement("h4");
+        // const endTimeSpan = document.createElement("h4");
+    
+        entryDiv.appendChild(startTimeSpan);
+    
+        let clickCount = 0;
+        let startTime;
+    
+        button.onclick = function() {
+            clickCount++;
+    
+            if (clickCount === 1) {
+                // First click: record the start time
+                startTime = new Date();
+                startTimeSpan.textContent = ` ${formatTime(startTime)} to `;
+                // one = startTimeSpan.textContent;
+                button.textContent = "End Break";
+            } else if (clickCount === 2) {
+                // Second click: record the end time and disable the button
+                const endTime = new Date();
+                startTimeSpan.textContent = `${formatTime(startTime)} to ${formatTime(endTime)}`;
+                button.disabled = true; // Disable the button after the second click
+    
+                // Save the times to local storage
+                saveBreakTimes(buttonText, startTime, endTime);
+            }
+        };
+    
+        return button;
+    }
+    
+    function saveBreakTimes(breakType, startTime, endTime) {
+        const sectionMap = {
+            "login.html": "Login",
+            "breakm.html": "Break-Morning",
+            "lunch.html": "Lunch",
+            "breake.html": "Break-Evening"
+        };
+    
+        const currentPage = window.location.pathname.split("/").pop();
+        const currentSection = sectionMap[currentPage];
+    
+        // Retrieve existing entries from localStorage
+        const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
+    
+        // Create a new entry for the break times
+        // const newEntry = {
+        //     name: "Example Name", // Replace with actual name or logic
+        //     time: `${formatTime(startTime)} to ${formatTime(endTime)}`,
+        //     department: "Example Department", // Replace with actual department or logic
+        //     information: "Example Information", // Replace with actual information or logic
+        //     reason: breakType
+        // };
+    
+        // Add the new entry to the list
+        entries.push(newEntry);
+    
+        // Save updated entries back to localStorage
+        localStorage.setItem(currentSection, JSON.stringify(entries));
+    
+        // Update button states
+        updateButtonStates(entries);
+    }
+    
+    function formatTime(date) {
+        // Helper function to format time as "HH:mm"
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+    
+    // Update button states (assuming you have a mechanism to call this as needed)
+    function updateButtonStates(entries) {
+        const clearButton = document.getElementById("clear");
+        const downloadButton = document.getElementById("download");
+    
+        // Check if there are any entries
+        const hasEntries = entries.length > 0;
+    
+        // Enable or disable buttons based on the presence of entries
+        clearButton.disabled = !hasEntries;
+        downloadButton.disabled = !hasEntries;
+    }
+    
+    // Load entries on page load
+    window.onload = function () {
+        loadEntries();
+    };
+    
+    function confirmClearEntries() {
+        if (confirm("Are you sure you want to delete all entries for this section?")) {
+            clearEntries();
+        }
     }
     
     function clearEntries() {
@@ -83,29 +193,110 @@
             "breake.html": "Break-Evening"
         };
     
-        const currentSection = sectionMap[window.location.pathname.split("/").pop()];
-        localStorage.removeItem(currentSection); // Clear specific section's entries
+        const currentPage = window.location.pathname.split("/").pop();
+        const currentSection = sectionMap[currentPage];
     
-        document.getElementById("entriesSection").innerHTML = ""; // Reset the entry container
-        updateButtonStates();
+        // Clear the specific section's entries from localStorage
+        localStorage.removeItem(currentSection);
+    
+        // Reset the entry container
+        document.getElementById("entriesSection").innerHTML = '';
+    
+        // Update button states after clearing entries
+        updateButtonStates([]);
+    }
+    
+    
+    function confirmClearEntries() {
+        if (confirm("Are you sure you want to delete all entries for this section?")) {
+            clearEntries();
+        }
+    }
+    
+    function clearEntries() {
+        const sectionMap = {
+            "login.html": "Login",
+            "breakm.html": "Break-Morning",
+            "lunch.html": "Lunch",
+            "breake.html": "Break-Evening"
+        };
+    
+        const currentPage = window.location.pathname.split("/").pop();
+        const currentSection = sectionMap[currentPage];
+    
+        // Clear the specific section's entries from localStorage
+        localStorage.removeItem(currentSection);
+    
+        // Reset the entry container
+        document.getElementById("entriesSection").innerHTML = '';
+    
+        // Update button states after clearing entries
+        updateButtonStates([]);
     }
     
     function updateButtonStates(entries) {
-    const clearButton = document.getElementById("clear");
-    const downloadButton = document.getElementById("download");
-
-    // Check if there are any entries
-    const hasEntries = entries.length > 0;
-
-    // Enable or disable buttons based on the presence of entries
-    clearButton.disabled = !hasEntries;
-    downloadButton.disabled = !hasEntries;
-}
+        const clearButton = document.getElementById("clear");
+        const downloadButton = document.getElementById("download");
+    
+        // Check if there are any entries
+        const hasEntries = entries.length > 0;
+    
+        // Enable or disable buttons based on the presence of entries
+        clearButton.disabled = !hasEntries;
+        downloadButton.disabled = !hasEntries;
+    }
+    
     
     // Load entries on page load
     window.onload = function () {
         loadEntries();
     };
+    
+    
+    function exportToExcel() {
+        const sectionMap = {
+            "login.html": "Login",
+            "breakm.html": "Break-Morning",
+            "lunch.html": "Lunch",
+            "breake.html": "Break-Evening"
+        };
+    
+        const currentPage = window.location.pathname.split("/").pop();
+        const currentSection = sectionMap[currentPage];
+    
+        const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
+        if (entries.length === 0) {
+            alert("No data available to download.");
+            return;
+        }
+    
+        // Create a new workbook
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(entries);
+    
+        // Add worksheet to workbook
+        XLSX.utils.book_append_sheet(workbook, worksheet, currentSection);
+    
+        // Generate and download the Excel file
+        const dateTime = getCurrentDateTime();
+        XLSX.writeFile(workbook, `${currentSection}_${dateTime}.xlsx`);
+    }
+    
+    function getCurrentDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // months are zero-indexed
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+        return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+    }
+    
+    
+    // Example: Call this function on a button click to download entries as XLSX
+    document.getElementById('download').addEventListener('click', exportToExcel);
     
     
       </script>
@@ -185,8 +376,10 @@
     }
 
     article{
-        background-color: #9CF196;
+        /* background-color: #9F70FD; */
         /* background-color: #FEFF86; */
+        background-color: #9CF196; 
+        /* background-color: #FFB0FE; */
         padding: 30px;
         width: 40vw;
         display: grid;
@@ -232,9 +425,9 @@
         margin-left: 40px;
         /* margin-right: 30px; */
         /* margin-left: -200px; */
-    }
+    }   
 
-    button{
+    #clear, #download{
         background-color: #000000;
         padding: 20px 20px;
         width: 150px;
@@ -249,7 +442,7 @@
         /* transform: translateX(-50%); */
     }
 
-    button:disabled{
+    #download:disabled{
         background-color: #00000070;
         cursor: not-allowed;
     }
@@ -262,6 +455,25 @@
     #clear{
         background-color: #FF0000;
         margin-right: 20px;
+    }
+
+    button{
+        background-color: #ffffff;
+        padding: 10px 5px;
+        width: 100px;
+        color: black;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        font-family: creato;
+        cursor: pointer;
+        /* margin-left: 50%; */
+        margin-top: 20px;
+        /* transform: translateX(-50%); */
+    }
+
+    button:disabled{
+        cursor: not-allowed;
     }
 
     h6{
@@ -282,7 +494,7 @@
         }
 
         span{
-            margin-left: 60vw;
+            margin-left: 10vw;
         }
     }
 
@@ -300,8 +512,21 @@
         }
 
         span{
-            margin-left: 50vw;
+            margin-left: 10vw;
         }
+
+        h1, h2, h4{
+            /* grid-column-start: 1; */
+            /* grid-column-end: 2; */
+            /* border: 2px solid black; */
+            width: 170px;
+        }
+
+        button{
+            margin-left: 20px;
+        }
+
+
     }
 
     @media (max-width:  320px) {
@@ -328,7 +553,16 @@
 
         button{
             font-size: 10px;
-            padding: 20px 10px;
+            padding: 10px 0px;
+            width: 90px;
+            margin-left: 20px;
+        }
+
+        h1, h2, h4{
+            /* grid-column-start: 1; */
+            /* grid-column-end: 2; */
+            /* border: 2px solid black; */
+            width: 100px;
         }
     }
 </style>

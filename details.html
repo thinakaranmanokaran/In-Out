@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details | TAS</title>
+    <link rel="stylesheet" href="your-styles.css">
+</head>
+<body>
+    <main>
+        <section id="detailsSection">
+            <!-- The entry details will be displayed here -->
+        </section>
+    </main>
+
+    <script>
+        window.onload = function () {
+            // Retrieve the selected entry from localStorage
+            const selectedEntry = JSON.parse(localStorage.getItem('selectedEntry'));
+
+            if (selectedEntry) {
+                // Get the container to display details
+                const detailsSection = document.getElementById('detailsSection');
+
+                // Create elements to display the data
+                const nameElement = document.createElement('h1');
+                nameElement.textContent = selectedEntry.name;
+
+                const departmentElement = document.createElement('h2');
+                departmentElement.textContent = selectedEntry.department;
+
+                const informationElement = document.createElement('h3');
+                informationElement.textContent = selectedEntry.information;
+
+                const reasonElement = document.createElement('h4');
+                reasonElement.textContent = selectedEntry.reason;
+
+                const timeSpan = document.createElement('span');
+                timeSpan.textContent = selectedEntry.time;
+
+                // Append all elements to the details section
+                detailsSection.appendChild(nameElement);
+                detailsSection.appendChild(departmentElement);
+                detailsSection.appendChild(informationElement);
+                detailsSection.appendChild(reasonElement);
+                detailsSection.appendChild(timeSpan);
+            } else {
+                // If no entry found in localStorage, display a message
+                document.getElementById('detailsSection').textContent = 'No entry selected.';
+            }
+        };
+    </script>
+</body>
+</html>
