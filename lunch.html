@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
+    <img src="/assets/images/food.png" alt="" srcset="">
     <main>
         <header>
             <p>
@@ -71,7 +72,7 @@
             entryDiv.appendChild(departmentElement);
             entryDiv.appendChild(informationElement);
             entryDiv.appendChild(reasonElement);
-            entryDiv.appendChild(spaceElement);
+            // entryDiv.appendChild(spaceElement);
     
             // Create buttons for "Morning Break", "Lunch", "Evening Break"
             // const morningBreakButton = createBreakButton("Morning Break", entryDiv);
@@ -313,6 +314,14 @@
         src: url(./assets/fonts/CreatoDisplay-Medium.otf);
     }
 
+    img{
+        width: 60vw;
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
     body{
         background: #FBF6EE;
     }
@@ -413,6 +422,7 @@
         font-weight: 500;
         border-radius: 10px;
         margin-left: 40px;
+        background-color: #FBF6EE;
     }
 
     h4{
@@ -496,6 +506,10 @@
         span{
             margin-left: 10vw;
         }
+
+        img{
+            top: 30%;
+        }
     }
 
     @media (max-width: 425px) {
@@ -524,6 +538,10 @@
 
         button{
             margin-left: 20px;
+        }
+
+                img{
+            top: 40%;
         }
 
 
@@ -563,6 +581,10 @@
             /* grid-column-end: 2; */
             /* border: 2px solid black; */
             width: 100px;
+        }
+
+                img{
+            width: 80vw;
         }
     }
 </style>

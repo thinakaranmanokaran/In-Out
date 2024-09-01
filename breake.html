@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <img src="/assets/images/cofffee.png" alt="" srcset="">
     <main>
         <header>
             <p>
@@ -70,7 +71,7 @@
             entryDiv.appendChild(departmentElement);
             entryDiv.appendChild(informationElement);
             entryDiv.appendChild(reasonElement);
-            entryDiv.appendChild(spaceElement);
+            // entryDiv.appendChild(spaceElement);
     
             // Create buttons for "Morning Break", "Lunch", "Evening Break"
             // const morningBreakButton = createBreakButton("Morning Break", entryDiv);
@@ -253,45 +254,65 @@
     
     
     function exportToExcel() {
-        const sectionMap = {
-            "login.html": "Login",
-            "breakm.html": "Break-Morning",
-            "lunch.html": "Lunch",
-            "breake.html": "Break-Evening"
-        };
+    const sectionMap = {
+        "login.html": "Login",
+        "breakm.html": "Break-Morning",
+        "lunch.html": "Lunch",
+        "breake.html": "Break-Evening"
+    };
+
+    const currentPage = window.location.pathname.split("/").pop();
+    const currentSection = sectionMap[currentPage];
+
+    const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
+    if (entries.length === 0) {
+        alert("No data available to download.");
+        return;
+    }
+
+    // Create a new workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(entries);
+
+    // Get the range of the worksheet
+    const range = XLSX.utils.decode_range(worksheet['!ref']);
     
-        const currentPage = window.location.pathname.split("/").pop();
-        const currentSection = sectionMap[currentPage];
-    
-        const entries = JSON.parse(localStorage.getItem(currentSection)) || [];
-        if (entries.length === 0) {
-            alert("No data available to download.");
-            return;
+    // Define the style for the yellow highlight
+    const yellowHighlight = {
+        fill: {
+            patternType: "solid",
+            fgColor: { rgb: "FFFF00" }
         }
-    
-        // Create a new workbook
-        const workbook = XLSX.utils.book_new();
-        const worksheet = XLSX.utils.json_to_sheet(entries);
-    
-        // Add worksheet to workbook
-        XLSX.utils.book_append_sheet(workbook, worksheet, currentSection);
-    
-        // Generate and download the Excel file
-        const dateTime = getCurrentDateTime();
-        XLSX.writeFile(workbook, `${currentSection}_${dateTime}.xlsx`);
+    };
+
+    // Loop through each cell in the first row (title row)
+    for (let col = range.s.c; col <= range.e.c; ++col) {
+        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col }); // First row cells
+        if (!worksheet[cellAddress]) worksheet[cellAddress] = {}; // Create cell if not exists
+        if (!worksheet[cellAddress].s) worksheet[cellAddress].s = {}; // Ensure style object exists
+        worksheet[cellAddress].s = yellowHighlight; // Apply the yellow style
     }
-    
-    function getCurrentDateTime() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // months are zero-indexed
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-    
-        return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
-    }
+
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, currentSection);
+
+    // Generate and download the Excel file
+    const dateTime = getCurrentDateTime();
+    XLSX.writeFile(workbook, `${currentSection}_${dateTime}.xlsx`);
+}
+
+// Function to get current date and time in a specific format
+function getCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+}
+
     
     
     // Example: Call this function on a button click to download entries as XLSX
@@ -312,8 +333,20 @@
         src: url(./assets/fonts/CreatoDisplay-Medium.otf);
     }
 
+    img{
+        position: absolute;
+        /* background: url(/assets//images/cofffee.png) no-repeat; */
+        /* background-size: 37vw 70vh; */
+        width: 50vw;
+        /* height: 70vh; */
+        /* margin-top: -100px; */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
     body{
         background: #FBF6EE;
+        /* background-size: cover; */
     }
 
     main{
@@ -405,7 +438,7 @@
     span{
         margin-top: 10px;
         text-align: end;
-        /* border: 2px solid black; */
+        background: #FBF6EE;
         padding: 13px 30px 10px 30px;
         width: min-content;
         color: #000000;
@@ -495,6 +528,10 @@
         span{
             margin-left: 10vw;
         }
+
+        img{
+            margin-top: 100px;
+        }
     }
 
     @media (max-width: 425px) {
@@ -523,6 +560,11 @@
 
         button{
             margin-left: 20px;
+        }
+
+        img{
+            margin-top: 150px;
+            width: 70vw;
         }
 
 
@@ -567,6 +609,11 @@
         
         h1, h2, h3, h4, span{
             font-size: 10px;
+        }
+
+        img{
+            /* margin-top: 100px; */
+            width: 80vw;
         }
     }
 </style>

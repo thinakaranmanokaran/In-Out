@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 </head>
 <body>
+    <img src="/assets/images/cofffee.png" alt="" srcset="">
     <main>
         <header>
             <p>
@@ -69,7 +70,7 @@
             entryDiv.appendChild(departmentElement);
             entryDiv.appendChild(informationElement);
             entryDiv.appendChild(reasonElement);
-            entryDiv.appendChild(spaceElement);
+            // entryDiv.appendChild(spaceElement);
     
             // Create buttons for "Morning Break", "Lunch", "Evening Break"
             // const morningBreakButton = createBreakButton("Morning Break", entryDiv);
@@ -315,6 +316,17 @@
         background: #FBF6EE;
     }
 
+    img{
+        position: absolute;
+        /* background: url(/assets//images/cofffee.png) no-repeat; */
+        /* background-size: 37vw 70vh; */
+        width: 50vw;
+        /* height: 70vh; */
+        /* margin-top: -100px; */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
     main{
         display: flex;
         flex-direction: column;
@@ -411,6 +423,7 @@
         font-weight: 500;
         border-radius: 10px;
         margin-left: 40px;
+        background: #FBF6EE;
     }
 
     h4{
@@ -494,6 +507,10 @@
         span{
             margin-left: 10vw;
         }
+
+        img{
+            margin-top: 100px;
+        }
     }
 
     @media (max-width: 425px) {
@@ -524,6 +541,10 @@
             margin-left: 20px;
         }
 
+        img{
+            margin-top: 150px;
+            width: 70vw;
+        }
 
     }
 
@@ -561,6 +582,11 @@
             /* grid-column-end: 2; */
             /* border: 2px solid black; */
             width: 100px;
+        }
+
+        img{
+            /* margin-top: 100px; */
+            width: 80vw;
         }
     }
 </style>
